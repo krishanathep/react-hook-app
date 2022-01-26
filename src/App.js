@@ -1,29 +1,29 @@
-import { useState } from "react/cjs/react.development";
-import NoteList from "./components/note";
-import CreateNote from "./components/note/CreateNote";
+import { useState } from 'react'
+import Login from './components/Login'
+import Header from './components/Header'
+import CreatePost from './components/CreatePost'
 
 function App() {
-  const notes = [
-    {id: 1, title: 'Title 1', amount: 5000},
-    {id: 2, title: 'Title 2', amount: 6000},
-    {id: 3, title: 'Title 3', amount: 1000},
-    {id: 4, title: 'Title 4', amount: 7000},
-    {id: 5, title: 'Title 5', amount: 9000},
-  ]
+  const [user, setUser] = useState('Kwang')
+  const [posts, setPosts] = useState([]) 
 
-  const [items, setItems]=useState(notes)
-
-  const onAddItem = (newItem) => {
-    setItems((prevItem)=>{
-      return [...prevItem, newItem]
-    })
+  if (!user) {
+    return <Login setUser={setUser}/>
   }
 
   return (
     <div>
-      <h1>Expense Note</h1>
-      <CreateNote onAddItem = {onAddItem}/>
-      <NoteList notes = {items}/>
+      <Header user={user} setUser={setUser}/>
+      <CreatePost user={user} posts={posts} setPosts={setPosts} />
+      {posts.map(post=>(
+        <>
+        <img style={{ height: 100, widows: 200, objectFit: 'cover'}} src={URL.createObjectURL(post.image)} alt="" />
+        <p>{post.content}</p>
+        <div>
+          {user}
+        </div>
+        </>
+      ))}
     </div>
   );
 }
